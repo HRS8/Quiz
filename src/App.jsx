@@ -3,9 +3,11 @@ import Quiz from "./Quiz";
 const App=()=> {
 
     return (
-        <BrowserRouter>
-            <Quiz />
-        </BrowserRouter>
+      <BrowserRouter>
+        <div className="">
+          <Quiz />
+        </div>
+      </BrowserRouter>
     );
 }
 

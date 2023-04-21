@@ -36,12 +36,15 @@ const Quiz = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen rounded-md">
+    <div className=" flex justify-center items-center align-middle  h-screen ">
       <div
-        className="border-2 border-white w-96 p-6 rounded-md"
+        className="border-2 border-white  p-6 rounded-md m-auto sm:w-[50vw]"
         key={Questions[currentQuestionIndex].id}
       >
-        <h2 className="">Q:{Questions[currentQuestionIndex].Ques}</h2>
+        <h2 className="vertical-center m-2">
+          <span className="border-2 border-white rounded-lg p-1">{Questions[currentQuestionIndex].id}</span>&nbsp;&nbsp;&nbsp;
+          {Questions[currentQuestionIndex].Ques}
+        </h2>
         <div className="">
           {Questions[currentQuestionIndex].options.map((option, index) => (
             <p
@@ -49,7 +52,7 @@ const Quiz = () => {
               onClick={(event) =>
                 handleOptions(Questions[currentQuestionIndex].id, index, event)
               }
-              className=""
+              className="ml-10"
             >
               {option}
             </p>
