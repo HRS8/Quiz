@@ -77,11 +77,13 @@ const Quiz = () => {
         key={Questions[currentQuestionIndex]}
         className={`${
           isVisible ? "border-2 border-white" : ""
-        } m-auto mt-3 sm:w-[50vw] p-3 rounded-md`}
+        } m-auto mt-3 p-3 rounded-md`}
       >
         <button
           onClick={() => handleToggle(Questions[currentQuestionIndex].id)}
-          className="border-none border-0"
+          className={`${
+            isVisible ? "w-[57vw] sm:w-[47vw]" : "w-[60vw] sm:w-[50vw]"
+          } border-none border-0  rounded-md`}
         >
           {isVisible ? "Hide" : "show"} Para
         </button>
