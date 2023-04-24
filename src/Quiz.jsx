@@ -5,6 +5,7 @@ const Quiz = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(null);
   const [isCorrect, setIsCorrect] = useState(null);
+  const [isDark, setIsDark] = useState(false);
 
   const handleToggle = (id) => {
     setIsVisible(isVisible ? !isVisible : id);
@@ -16,7 +17,7 @@ const Quiz = () => {
       setIsCorrect(true);
       setIsVisible(questionId);
       console.log("correct");
-      event.target.classList.add("text-green-500");
+      event.target.classList.add("bg-green-500");
 
       const options = event.target.parentNode.childNodes;
       options.forEach((option, index) => {
@@ -26,7 +27,7 @@ const Quiz = () => {
       });
     } else {
       console.log("wrong");
-      event.target.classList.add("text-red-500");
+      event.target.classList.add("bg-red-500");
     }
   };
 
@@ -35,14 +36,61 @@ const Quiz = () => {
     setIsVisible(null);
   };
 
+  const handleToggleDarkMode = () => {
+    setIsDark(!isDark);
+    if (isDark) {
+      document.documentElement.classList.remove("dark");
+    } else {
+      document.documentElement.classList.add("dark");
+    }
+  };
+
   return (
-    <div className=" flex  align-middle   flex-col  items-center h-screen ">
+    <div
+      className={`${
+        isDark ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
+      }  flex flex-col items-center h-screen`}
+    >
       <div
-        className="border-2 border-white  p-6 rounded-md m-auto mb-0 sm:w-[50vw]"
+        className="fixed top-0 right-0 m-4 cursor-pointer inline-flex"
+        onClick={handleToggleDarkMode}
+      >
+        {isDark ? (
+          <svg
+            className="w-6 h-6 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M18 12H6"
+            />
+          </svg>
+        ) : (
+          <svg
+            className="w-6 h-6 text-black"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 18l9-9-9-9"
+            />
+          </svg>
+        )}
+      </div>
+      <div
+        className="border-2 border-neutral-400  p-6 rounded-md m-auto mb-0 sm:w-[50vw]"
         key={Questions[currentQuestionIndex].id}
       >
         <h2 className="vertical-center m-2 mb-6">
-          <span className="border-2 border-white  vertical-top px-2 py-[0.12rem] rounded-full text-[0.9rem] font-bold">
+          <span className="border-2 border-neutral-400  vertical-top px-2 py-[0.12rem] rounded-full text-[0.9rem] font-bold">
             {Questions[currentQuestionIndex].id}
           </span>
           &nbsp;&nbsp;&nbsp;
@@ -57,7 +105,7 @@ const Quiz = () => {
               onClick={(event) =>
                 handleOptions(Questions[currentQuestionIndex].id, index, event)
               }
-              className="pl-4 mb-5 border-2 border-white rounded-xl py-2 text-lg"
+              className="pl-4 mb-5 border-2 border-neutral-400 rounded-xl py-2"
             >
               {option}
             </p>
@@ -67,7 +115,7 @@ const Quiz = () => {
           <button
             onClick={handleNext}
             disabled={currentQuestionIndex === Questions.length - 1}
-            className="font-bold mt-3"
+            className={`${isDark?"text-white":"text-black"}`}
           >
             Next
           </button>
@@ -76,7 +124,7 @@ const Quiz = () => {
       <div
         key={Questions[currentQuestionIndex]}
         className={`${
-          isVisible ? "border-2 border-white" : ""
+          isVisible ? "border-2 border-neutral-400" : ""
         } m-auto mt-3 p-3 rounded-md`}
       >
         <button
@@ -99,3 +147,4 @@ const Quiz = () => {
 };
 
 export default Quiz;
+//add a dark/light mode toggle on top right corner of the component
