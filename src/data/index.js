@@ -23,7 +23,7 @@ export const Questions =[
         options:[
             "option1","option2","option3","option4"
         ],
-        Correct:1,
+        Correct:3,
         ans:"answer",
     },
     {

@@ -6,6 +6,7 @@ const Quiz = () => {
   const [isVisible, setIsVisible] = useState(null);
   const [isCorrect, setIsCorrect] = useState(null);
   const [isDark, setIsDark] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
 
   const handleToggle = (id) => {
     setIsVisible(isVisible ? !isVisible : id);
@@ -18,11 +19,15 @@ const Quiz = () => {
       setIsVisible(questionId);
       console.log("correct");
       event.target.classList.add("bg-green-500");
+      setIsFinished(true);
 
       const options = event.target.parentNode.childNodes;
       options.forEach((option, index) => {
         if (index !== optionIndex) {
-          option.classList.add("text-white");
+          option.disabled=true;
+          if(option.classList.contains("bg-red-500")){
+            option.classList.remove("bg-red-500");
+          }
         }
       });
     } else {
@@ -48,7 +53,7 @@ const Quiz = () => {
   return (
     <div
       className={`${
-        isDark ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
+        isDark ? "bg-black text-white" : "bg-gray-100 text-black"
       }  flex flex-col items-center h-screen`}
     >
       <div
@@ -57,36 +62,61 @@ const Quiz = () => {
       >
         {isDark ? (
           <svg
-            className="w-6 h-6 text-white"
-            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
             viewBox="0 0 24 24"
+            fill="none"
             stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M18 12H6"
-            />
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
           </svg>
         ) : (
           <svg
-            className="w-6 h-6 text-black"
-            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
             viewBox="0 0 24 24"
+            fill="none"
             stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style={{ transform: "rotate(40deg)" }}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 18l9-9-9-9"
-            />
+            <mask id="mask">
+              <rect x="0" y="0" width="100%" height="100%" fill="white" />
+              <circle cx="12" cy="4" r="9" fill="black" />
+            </mask>
+            <circle fill="black" cx="12" cy="12" r="9" mask="url(#mask)" />
+            {/* <g stroke="currentColor">
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      </g> */}
           </svg>
         )}
       </div>
       <div
-        className="border-2 border-neutral-400  p-6 rounded-md m-auto mb-0 sm:w-[50vw]"
+        className={`${
+          isDark ? "bg-neutral-900 text-white" : " text-black bg-amber-100"
+        }  border-2 border-neutral-400  p-6 rounded-md m-auto mb-0 sm:w-[50vw]`}
         key={Questions[currentQuestionIndex].id}
       >
         <h2 className="vertical-center m-2 mb-6">
@@ -100,22 +130,22 @@ const Quiz = () => {
         </h2>
         <div className="">
           {Questions[currentQuestionIndex].options.map((option, index) => (
-            <p
+            <button
               key={index}
               onClick={(event) =>
                 handleOptions(Questions[currentQuestionIndex].id, index, event)
               }
-              className="pl-4 mb-5 border-2 border-neutral-400 rounded-xl py-2"
+              className="pl-4 mb-5 border-2 border-neutral-400 rounded-xl py-2 w-full backdrop-blur-md hover:bg-neutral-400 hover:text-white hover:font-bold hover:shadow-lg hover:scale-105 transition-all duration-300 ease-in-out"
             >
               {option}
-            </p>
+            </button>
           ))}
         </div>
         <div key={Questions[currentQuestionIndex].id}>
           <button
             onClick={handleNext}
             disabled={currentQuestionIndex === Questions.length - 1}
-            className={`${isDark?"text-white":"text-black"}`}
+            className="text-white bg-orange-600 button1"
           >
             Next
           </button>
@@ -124,14 +154,14 @@ const Quiz = () => {
       <div
         key={Questions[currentQuestionIndex]}
         className={`${
-          isVisible ? "border-2 border-neutral-400" : ""
-        } m-auto mt-3 p-3 rounded-md`}
+          isVisible ? "border-2 border-neutral-400 " : ""
+        } m-auto mt-3 p-5 rounded-md  `}
       >
         <button
           onClick={() => handleToggle(Questions[currentQuestionIndex].id)}
           className={`${
             isVisible ? "w-[57vw] sm:w-[47vw]" : "w-[60vw] sm:w-[50vw]"
-          } border-none border-0  rounded-md`}
+          } border-none border-0  rounded-md text-white bg-[#1a1a1a] button1`}
         >
           {isVisible ? "Hide" : "show"} Para
         </button>
@@ -147,4 +177,3 @@ const Quiz = () => {
 };
 
 export default Quiz;
-//add a dark/light mode toggle on top right corner of the component
