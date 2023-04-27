@@ -135,7 +135,7 @@ const Quiz = () => {
               onClick={(event) =>
                 handleOptions(Questions[currentQuestionIndex].id, index, event)
               }
-              className="pl-4 mb-5 border-2 border-neutral-400 rounded-xl py-2 w-full backdrop-blur-md hover:bg-neutral-400 hover:text-white hover:font-bold hover:shadow-lg hover:scale-105 transition-all duration-300 ease-in-out"
+              className="pl-4 mb-5 border-2 border-neutral-400 rounded-xl py-2 w-full   hover:shadow-md hover:scale-105 transition-all duration-300 ease-in-out"
             >
               {option}
             </button>
